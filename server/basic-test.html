@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic Test</title>
+</head>
+<body>
+    <h1>Basic JavaScript Test</h1>
+    <div id="test">Loading...</div>
+    
+    <script>
+        console.log('Script is running!');
+        document.getElementById('test').innerHTML = 'JavaScript is working!';
+        
+        // Test WebSocket
+        try {
+            console.log('Testing WebSocket...');
+            const ws = new WebSocket('ws://localhost:3002');
+            console.log('WebSocket created, readyState:', ws.readyState);
+            
+            ws.onopen = function() {
+                console.log('WebSocket opened!');
+                document.getElementById('test').innerHTML = 'WebSocket Connected!';
+            };
+            
+            ws.onerror = function(error) {
+                console.log('WebSocket error:', error);
+                document.getElementById('test').innerHTML = 'WebSocket Error!';
+            };
+            
+        } catch (error) {
+            console.log('WebSocket creation failed:', error);
+            document.getElementById('test').innerHTML = 'WebSocket Failed: ' + error.message;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple WebSocket Test</title>
+</head>
+<body>
+    <h1>Simple WebSocket Test</h1>
+    <div id="status">Starting...</div>
+    <div id="logs"></div>
+    
+    <script>
+        const status = document.getElementById('status');
+        const logs = document.getElementById('logs');
+        
+        function log(message) {
+            const time = new Date().toLocaleTimeString();
+            logs.innerHTML += '<div>' + time + ': ' + message + '</div>';
+            console.log(time + ': ' + message);
+        }
+        
+        log('Page loaded, starting WebSocket test...');
+        status.textContent = 'Creating WebSocket...';
+        
+        // Test basic WebSocket creation
+        try {
+            log('Creating WebSocket connection to ws://localhost:3002');
+            const ws = new WebSocket('ws://localhost:3002');
+            
+            log('WebSocket object created, readyState: ' + ws.readyState);
+            
+            ws.onopen = function() {
+                log('✅ WebSocket OPEN event fired!');
+                status.textContent = 'Connected!';
+                status.style.color = 'green';
+                
+                // Send a simple message
+                const testMessage = JSON.stringify({type: 'subscribe', symbols: ['AAPL']});
+                ws.send(testMessage);
+                log('📤 Sent test message: ' + testMessage);
+            };
+            
+            ws.onmessage = function(event) {
+                log('📥 Received message: ' + event.data);
+            };
+            
+            ws.onerror = function(error) {
+                log('❌ WebSocket ERROR: ' + error);
+                status.textContent = 'Error!';
+                status.style.color = 'red';
+            };
+            
+            ws.onclose = function(event) {
+                log('🔌 WebSocket CLOSED: Code ' + event.code + ', Reason: ' + event.reason);
+                status.textContent = 'Disconnected';
+                status.style.color = 'orange';
+            };
+            
+            // Check connection status every second
+            let checkCount = 0;
+            const statusCheck = setInterval(() => {
+                checkCount++;
+                log('Status check #' + checkCount + ': readyState = ' + ws.readyState + ' (0=CONNECTING, 1=OPEN, 2=CLOSING, 3=CLOSED)');
+                
+                if (ws.readyState === WebSocket.OPEN) {
+                    clearInterval(statusCheck);
+                    log('✅ Connection confirmed open!');
+                } else if (checkCount >= 10) {
+                    clearInterval(statusCheck);
+                    log('⏰ Timeout after 10 seconds');
+                }
+            }, 1000);
+            
+        } catch (error) {
+            log('❌ Failed to create WebSocket: ' + error.message);
+            status.textContent = 'Failed to create WebSocket';
+            status.style.color = 'red';
+        }
+    </script>
+</body>
+</html>

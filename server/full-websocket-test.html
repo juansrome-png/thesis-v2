@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Full WebSocket Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .status { padding: 10px; margin: 10px 0; border-radius: 5px; }
+        .connected { background-color: #d4edda; color: #155724; }
+        .disconnected { background-color: #f8d7da; color: #721c24; }
+        .data { background-color: #e2e3e5; padding: 10px; margin: 10px 0; border-radius: 5px; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>🚀 Full WebSocket Test</h1>
+    
+    <div id="status" class="status disconnected">Disconnected</div>
+    
+    <div>
+        <button onclick="connect()">Connect</button>
+        <button onclick="subscribe()">Subscribe to AAPL, NVDA</button>
+        <button onclick="disconnect()">Disconnect</button>
+    </div>
+    
+    <div id="data" class="data">
+        <h3>Real-time Data:</h3>
+        <div id="messages">No messages yet...</div>
+    </div>
+
+    <script>
+        let ws = null;
+        let messageCount = 0;
+
+        function updateStatus(message, isConnected) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${isConnected ? 'connected' : 'disconnected'}`;
+        }
+
+        function addMessage(data) {
+            messageCount++;
+            const messages = document.getElementById('messages');
+            const timestamp = new Date().toLocaleTimeString();
+            messages.innerHTML += `<div><strong>${messageCount}.</strong> [${timestamp}] ${JSON.stringify(data, null, 2)}</div>`;
+        }
+
+        function connect() {
+            if (ws) {
+                ws.close();
+            }
+
+            updateStatus('Connecting...', false);
+            
+            ws = new WebSocket('ws://localhost:3002');
+            
+            ws.onopen = function() {
+                updateStatus('✅ Connected!', true);
+                addMessage({ type: 'connection', status: 'opened' });
+            };
+            
+            ws.onmessage = function(event) {
+                const data = JSON.parse(event.data);
+                addMessage(data);
+            };
+            
+            ws.onerror = function(error) {
+                updateStatus('❌ Error: ' + error.message, false);
+                addMessage({ type: 'error', error: error.message });
+            };
+            
+            ws.onclose = function() {
+                updateStatus('Disconnected', false);
+                addMessage({ type: 'connection', status: 'closed' });
+            };
+        }
+
+        function subscribe() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                const message = {
+                    type: 'subscribe',
+                    symbols: ['AAPL', 'NVDA']
+                };
+                ws.send(JSON.stringify(message));
+                addMessage({ type: 'sent', message: message });
+            } else {
+                addMessage({ type: 'error', message: 'WebSocket not connected' });
+            }
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+        }
+
+        // Auto-connect on page load
+        window.onload = function() {
+            connect();
+        };
+    </script>
+</body>
+</html>
