@@ -1,154 +1,225 @@
-# Portfolio Management Application
+# Advanced Portfolio Dashboard
 
-A comprehensive React-based portfolio management application with dynamic allocation insights, unified dashboard, and real-time pie chart visualizations.
+A sophisticated portfolio management application with real-time financial data, WebSocket integration, and AI-powered insights.
 
 ## 🚀 Features
 
-### 📊 **Portfolio Dashboard**
-- Real-time portfolio overview with dynamic allocations
-- Interactive pie charts for industry and asset class distribution
-- AI-powered insights and recommendations
-- Holdings management with add/edit functionality
-- Performance tracking and analytics
+- **Real-time Portfolio Dashboard** with live price updates via WebSocket
+- **Centralized Asset Categorization** system for consistent data across components
+- **AI-powered Insights** and alerts with enhanced UI
+- **Performance Analytics** with detailed charts and metrics
+- **Responsive Design** with modern UI components
+- **Production-ready API Integration** with Alpha Vantage and Polygon.io
+- **Secure Environment Variable** configuration for API keys
 
-### 📈 **Allocation Insights**
-- Detailed allocation analysis with visual charts
-- Industry and asset class breakdowns
-- AI-generated insights based on actual portfolio data
-- Important monitoring points and recommendations
-- Relevant news integration
+## 🛠️ Tech Stack
 
-### 🏠 **Stock Detail Pages**
-- Comprehensive stock information and metrics
-- Investment thesis management
-- Price charts and financial data
-- Analyst insights and market analysis
+### Frontend
+- **React 18** with TypeScript
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **Recharts** for data visualization
+- **Framer Motion** for animations
+- **React Router** for navigation
 
-### 📋 **Investment Thesis Management**
-- User-specific thesis creation and storage
-- Read-only thesis reports
-- AI-powered thesis updates
-- Asset-specific monitoring points
+### Backend
+- **Express.js** server with Redis caching
+- **WebSocket** for real-time data updates
+- **Node-cron** for scheduled data refresh
+- **Helmet** for security headers
+- **CORS** and rate limiting
 
-### 🔔 **AI Alerts System**
-- Priority-based news alerts
-- Portfolio-relevant notifications
-- Customizable notification preferences
-- External news integration
+### APIs
+- **Alpha Vantage** for stock data
+- **Polygon.io** for real-time quotes
+- **OpenAI** for AI insights
 
-## 🛠️ **Technology Stack**
+## 📋 Prerequisites
 
-- **Frontend**: React 18 + TypeScript
-- **Styling**: Tailwind CSS
-- **Charts**: Recharts
-- **Routing**: React Router DOM
-- **Icons**: Lucide React
-- **Build Tool**: Vite
-
-## 📁 **Project Structure**
-
-```
-thesis v2/
-├── homepage/                 # Main application
-│   ├── src/
-│   │   ├── components/
-│   │   │   ├── generated/   # All React components
-│   │   │   └── Navigation.tsx
-│   │   ├── App.tsx
-│   │   └── main.tsx
-│   └── package.json
-├── allocation detail page/   # Allocation insights module
-├── asset page/              # Stock detail module
-├── portfoliodashboard/      # Portfolio dashboard module
-└── profile page/            # User profile module
-```
-
-## 🚀 **Getting Started**
-
-### Prerequisites
 - Node.js 18+ 
 - npm or yarn
+- Redis server (for caching)
+- API keys for Alpha Vantage, Polygon.io, and OpenAI
 
-### Installation
+## 🚀 Quick Start
 
-1. **Navigate to the main application:**
-   ```bash
-   cd homepage
-   ```
+### 1. Clone the Repository
+```bash
+git clone https://github.com/juansrome-png/thesis-v2.git
+cd thesis-v2
+```
 
-2. **Install dependencies:**
-   ```bash
-   npm install
-   ```
+### 2. Install Dependencies
 
-3. **Start the development server:**
-   ```bash
-   npm run dev
-   ```
+#### Frontend (Homepage)
+```bash
+cd homepage
+npm install
+```
 
-4. **Open your browser:**
-   Navigate to `http://localhost:5173`
+#### Backend (Server)
+```bash
+cd server
+npm install
+```
 
-## ✨ **Key Features Implemented**
+### 3. Environment Setup
 
-### 🔄 **Dynamic Allocations**
-- Pie charts automatically update based on actual portfolio holdings
-- Industry allocation with smart ETF categorization (Mix vs Sector-specific)
-- Asset class allocation (Stocks, ETFs, Crypto, Bonds)
-- Real-time percentage calculations
+Create environment files with your API keys:
 
-### 💾 **Data Persistence**
-- LocalStorage integration for portfolio holdings
-- Investment thesis storage and retrieval
-- User preferences and settings
-- Cross-page data synchronization
+#### Frontend (.env in homepage/)
+```env
+VITE_ALPHA_VANTAGE_KEY=your_alpha_vantage_key
+VITE_POLYGON_API_KEY=your_polygon_key
+VITE_OPENAI_API_KEY=your_openai_key
+```
 
-### 🎨 **Modern UI/UX**
-- Glassmorphism design with backdrop blur effects
-- Responsive design for all screen sizes
-- Smooth animations and transitions
-- Consistent color scheme and typography
+#### Backend (.env in server/)
+```env
+ALPHA_VANTAGE_KEY=your_alpha_vantage_key
+POLYGON_API_KEY=your_polygon_key
+OPENAI_API_KEY=your_openai_key
+```
 
-### 🔗 **Unified Navigation**
-- React Router DOM for seamless page navigation
-- Dynamic routing with URL parameters
-- Breadcrumb navigation and back buttons
-- Active state highlighting
+### 4. Start Redis
+```bash
+# Using Docker
+docker run -d -p 6379:6379 redis:alpine
 
-## 📊 **Data Flow**
+# Or install Redis locally
+# macOS: brew install redis && brew services start redis
+# Ubuntu: sudo apt install redis-server && sudo systemctl start redis
+```
 
-1. **Portfolio Holdings** → Stored in localStorage
-2. **Dynamic Calculations** → Industry/Asset allocations
-3. **Pie Chart Updates** → Real-time visualization
-4. **AI Insights** → Based on actual portfolio data
-5. **Cross-Page Sync** → Consistent data across all pages
+### 5. Start the Application
 
-## 🔧 **Recent Updates**
+#### Terminal 1 - Backend Server
+```bash
+cd server
+npm run dev
+```
 
-- ✅ Unified pie chart system between Dashboard and Allocation Insights
-- ✅ Dynamic allocation calculations based on actual holdings
-- ✅ ETF categorization (General → "Mix", Sector-specific → actual sector)
-- ✅ Investment thesis integration with localStorage
-- ✅ Real-time portfolio updates across all pages
-- ✅ Enhanced UI with glassmorphism effects
-- ✅ Comprehensive monitoring points and AI insights
+#### Terminal 2 - Frontend
+```bash
+cd homepage
+npm run dev
+```
 
-## 📝 **Usage**
+The application will be available at:
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3001
+- **WebSocket**: ws://localhost:3002
 
-1. **Add Holdings**: Use the "Add Holdings" button to add stocks, ETFs, or crypto
-2. **View Allocations**: Check pie charts for industry and asset class distribution
-3. **Analyze Insights**: Review AI-generated insights and recommendations
-4. **Manage Thesis**: Create and view investment theses for individual assets
-5. **Monitor Alerts**: Stay updated with AI-curated news and alerts
+## 📁 Project Structure
 
-## 🤝 **Contributing**
+```
+thesis-v2/
+├── homepage/                 # React frontend application
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   ├── hooks/           # Custom React hooks
+│   │   ├── services/        # API services and utilities
+│   │   └── types/           # TypeScript type definitions
+│   └── package.json
+├── server/                   # Express.js backend
+│   ├── server.js            # Main server file
+│   ├── package.json
+│   └── Dockerfile          # Docker configuration
+└── README.md
+```
 
-This is a portfolio management application built with modern React practices. Feel free to explore the codebase and suggest improvements!
+## 🔧 Key Components
 
-## 📄 **License**
+### Frontend Components
+- **PortfolioDashboard**: Main dashboard with real-time data
+- **PerformanceDashboardPage**: Detailed performance analytics
+- **StockDetailPage**: Individual stock analysis
+- **AllocationPieChart**: Interactive pie charts for asset allocation
+- **AddHoldingsModal**: Add new holdings to portfolio
 
-This project is for educational and personal use.
+### Backend Services
+- **Financial API Server**: Handles API calls to external services
+- **WebSocket Server**: Real-time data streaming
+- **Redis Cache**: Caching layer for improved performance
+- **Scheduled Tasks**: Automatic data refresh
+
+## 🔑 API Keys Setup
+
+### Alpha Vantage
+1. Sign up at [Alpha Vantage](https://www.alphavantage.co/support/#api-key)
+2. Get your free API key
+3. Add to environment variables
+
+### Polygon.io
+1. Sign up at [Polygon.io](https://polygon.io/)
+2. Get your API key
+3. Add to environment variables
+
+### OpenAI
+1. Sign up at [OpenAI](https://platform.openai.com/)
+2. Generate an API key
+3. Add to environment variables
+
+## 🐳 Docker Deployment
+
+### Using Docker Compose
+```bash
+cd server
+docker-compose up -d
+```
+
+This will start:
+- Redis server
+- Express.js API server
+- WebSocket server
+
+## 📊 Features Overview
+
+### Portfolio Dashboard
+- Real-time price updates
+- Asset allocation pie charts
+- Performance metrics
+- AI-powered alerts
+
+### Performance Analytics
+- Detailed performance breakdown
+- Sector and asset class allocation
+- Top performers and losers
+- Historical data visualization
+
+### Real-time Updates
+- WebSocket connection for live data
+- Automatic price refresh
+- Cached data for performance
+- Fallback to mock data when APIs are unavailable
+
+## 🔒 Security
+
+- All API keys stored in environment variables
+- No hardcoded secrets in the codebase
+- CORS protection
+- Rate limiting
+- Security headers with Helmet
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License.
+
+## 🆘 Support
+
+For questions or issues:
+1. Check the GitHub Issues
+2. Create a new issue with detailed description
+3. Contact the maintainers
 
 ---
 
-**Built with ❤️ using React, TypeScript, and Tailwind CSS**
+**Happy coding!** 🚀
