@@ -53,7 +53,7 @@ cd thesis-v2
 
 #### Frontend (Homepage)
 ```bash
-cd homepage
+cd frontend
 npm install
 ```
 
@@ -67,7 +67,7 @@ npm install
 
 Create environment files with your API keys:
 
-#### Frontend (.env in homepage/)
+#### Frontend (.env in frontend/)
 ```env
 VITE_ALPHA_VANTAGE_KEY=your_alpha_vantage_key
 VITE_POLYGON_API_KEY=your_polygon_key
@@ -101,7 +101,7 @@ npm run dev
 
 #### Terminal 2 - Frontend
 ```bash
-cd homepage
+cd frontend
 npm run dev
 ```
 
@@ -114,7 +114,7 @@ The application will be available at:
 
 ```
 thesis-v2/
-├── homepage/                 # React frontend application
+├── frontend/                 # React frontend application
 │   ├── src/
 │   │   ├── components/      # React components
 │   │   ├── hooks/           # Custom React hooks
